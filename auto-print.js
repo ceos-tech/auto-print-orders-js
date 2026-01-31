@@ -1,33 +1,35 @@
 <script type="text/javascript">
 document.addEventListener('DOMContentLoaded', function () {
+     // Conjuntos para controlar pedidos processados
     let pedidosImpressos = new Set();
     let pedidosJaListados = new Set();
     let ultimaHoraPedidoImpresso = 0;
 
+    // Função inicial que carrega pedidos existentes e inicia monitoramento
     function iniciarMonitoramento() {
         const listaPedidos = document.querySelector('.fdm-orders-list');
 
         if (listaPedidos) {
             const pedidos = listaPedidos.querySelectorAll('.fdm-orders-items');
-
+            // Marca pedidos que já estavam na lista
             for (let pedido of pedidos) {
                 const orderId = pedido.getAttribute('id');
                 const dataHoraPedido = obterDataHoraPedido(pedido);
                 pedidosJaListados.add(orderId);
                 console.log(`Pedido já listado: ${orderId} - Data: ${dataHoraPedido}`);
             }
-
+            // Monitora novos pedidos a cada 5 segundos
             setInterval(monitorarNovosPedidos, 5000);
         }
     }
-
+    // Função que identifica e imprime novos pedidos
     function monitorarNovosPedidos() {
         const listaPedidos = document.querySelector('.fdm-orders-list');
 
         if (listaPedidos) {
             const pedidos = listaPedidos.querySelectorAll('.fdm-orders-items');
             let novosPedidos = [];
-
+            // Verifica pedidos que ainda não foram impressos nem listados
             for (let pedido of pedidos) {
                 const orderId = pedido.getAttribute('id');
                 const dataHoraPedido = obterDataHoraPedido(pedido);
@@ -37,14 +39,14 @@ document.addEventListener('DOMContentLoaded', function () {
                     console.log(`Novo pedido encontrado: ${orderId} - Data: ${dataHoraPedido}`);
                 }
             }
-
+            // Para cada novo pedido, abre e imprime
             if (novosPedidos.length > 0) {
                 for (let orderId of novosPedidos) {
                     const pedido = Array.from(pedidos).find(p => p.getAttribute('id') === orderId);
                     const dataHoraPedido = obterDataHoraPedido(pedido);
 
                     pedido.click();
-
+                    // Aguardar botão de impressão aparecer
                     setTimeout(function () {
                         const botaoImprimir = document.getElementById('fdm-print-order');
 
@@ -62,7 +64,7 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         }
     }
-
+    // Função para obter timestamp do pedido
     function obterDataHoraPedido(pedido) {
         const dataElemento = pedido.querySelector('.fdm-order-list-items-date');
         if (dataElemento) {
@@ -78,7 +80,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     iniciarMonitoramento();
-
+    // Listener para cliques manuais nos pedidos
     document.querySelector('.fdm-orders-loop').addEventListener('click', function(event) {
         const pedidoClicado = event.target.closest('.fdm-orders-items');
 
