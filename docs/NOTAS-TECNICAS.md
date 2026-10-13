@@ -4,34 +4,34 @@ Estas notas descrevem uma **revisão estática** do [auto-print.js](../auto-prin
 
 ## Fluxo identificado no código
 
-1. Aguarda o evento \`DOMContentLoaded\`.
-2. Localiza \`.fdm-orders-list\` e registra como conhecidos os pedidos \`.fdm-orders-items\` já carregados.
-3. Inicia uma verificação periódica com \`setInterval(..., 5000)\`.
+1. Aguarda o evento `DOMContentLoaded`.
+2. Localiza `.fdm-orders-list` e registra como conhecidos os pedidos `.fdm-orders-items` já carregados.
+3. Inicia uma verificação periódica com `setInterval(..., 5000)`.
 4. Identifica novos IDs de pedidos que passaram pelas verificações de data e não estão nos conjuntos em memória.
-5. Clica no pedido detectado e, **3 segundos depois**, procura o botão \`#fdm-print-order\` e o aciona se estiver visível.
+5. Clica no pedido detectado e, **3 segundos depois**, procura o botão `#fdm-print-order` e o aciona se estiver visível.
 6. Registra o pedido como impresso **após clicar no botão**. Não recebe confirmação do spooler nem da impressora.
 
 ## Dependências de interface
 
 | Seletor | Uso no script |
 | --- | --- |
-| \`.fdm-orders-list\` | Lista de pedidos |
-| \`.fdm-orders-items\` | Linha de pedido; o atributo \`id\` identifica o registro |
-| \`.fdm-order-list-items-date\` | Texto de data/hora do pedido |
-| \`#fdm-print-order\` | Botão de impressão do painel |
-| \`.fdm-orders-loop\` | Contêiner do listener para cliques manuais |
+| `.fdm-orders-list` | Lista de pedidos |
+| `.fdm-orders-items` | Linha de pedido; o atributo `id` identifica o registro |
+| `.fdm-order-list-items-date` | Texto de data/hora do pedido |
+| `#fdm-print-order` | Botão de impressão do painel |
+| `.fdm-orders-loop` | Contêiner do listener para cliques manuais |
 
 A automação **não utiliza API de impressão oficial**; depende da estrutura do HTML do plugin. Atualizações podem quebrá-la.
 
 ## Limitações reais da versão original
 
 - **Concorrência:** quando vários pedidos chegam juntos, cada um agenda sua própria ação após 3 segundos. A interface pode estar mostrando outro pedido quando o clique de impressão ocorrer.
-- **Sem persistência:** \`pedidosImpressos\`, \`pedidosJaListados\` e a última data são variáveis da página, redefinidas após recarregar/abrir a aba.
-- **Datas frágeis:** o parser espera um formato próximo de \`DD/MM - HH:mm\` e utiliza o ano atual.
+- **Sem persistência:** `pedidosImpressos`, `pedidosJaListados` e a última data são variáveis da página, redefinidas após recarregar/abrir a aba.
+- **Datas frágeis:** o parser espera um formato próximo de `DD/MM - HH:mm` e utiliza o ano atual.
 - **Sem confirmação:** o clique no botão não prova que o papel foi impresso; não há fila de retentativas.
-- **Dependência de carregamento:** se a inclusão acontecer após \`DOMContentLoaded\`, a inicialização poderá não rodar.
-- **Elementos ausentes:** o listener em \`.fdm-orders-loop\` presume que esse nó exista.
-- **Formato do arquivo:** \`auto-print.js\` contém tags HTML \`<script>\`; precisa de adaptação antes de ser usado como arquivo \`.js\` externo.
+- **Dependência de carregamento:** se a inclusão acontecer após `DOMContentLoaded`, a inicialização poderá não rodar.
+- **Elementos ausentes:** o listener em `.fdm-orders-loop` presume que esse nó exista.
+- **Formato do arquivo:** `auto-print.js` contém tags HTML `<script>`; precisa de adaptação antes de ser usado como arquivo `.js` externo.
 
 Esses são **riscos do código**, não afirmações de problemas ocorridos na operação do cliente.
 
