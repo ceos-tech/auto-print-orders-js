@@ -23,25 +23,25 @@ Antes de tudo, faça uma impressão manual de teste e verifique se o painel func
 "C:\Program Files\Google\Chrome\Application\chrome.exe" --kiosk --kiosk-printing "https://exemplo.com.br/wp-admin/"
 ~~~
 
-4. Substitua a URL pelo caminho **real do painel de pedidos**, não necessariamente apenas \`/wp-admin/\`.
+4. Substitua a URL pelo caminho **real do painel de pedidos**, não necessariamente apenas `/wp-admin/`.
 5. Feche todas as janelas do Chrome e abra o atalho para testar. Instâncias existentes podem fazer o navegador ignorar parte dos argumentos.
 
 | Argumento | Função |
 | --- | --- |
-| \`--kiosk\` | Abre o navegador em uma interface dedicada/tela cheia. |
-| \`--kiosk-printing\` | Permite imprimir sem exibir a janela de confirmação quando a versão e o ambiente oferecem suporte. |
+| `--kiosk` | Abre o navegador em uma interface dedicada/tela cheia. |
+| `--kiosk-printing` | Permite imprimir sem exibir a janela de confirmação quando a versão e o ambiente oferecem suporte. |
 
-**Importante:** \`--kiosk\` sozinho **não** ativa impressão silenciosa. Verifique a configuração real da impressora, do Chrome e do Windows.
+**Importante:** `--kiosk` sozinho **não** ativa impressão silenciosa. Verifique a configuração real da impressora, do Chrome e do Windows.
 
 ## 3. Carregar o JavaScript
 
-O arquivo [auto-print.js](../auto-print.js) preserva o código como um bloco HTML com \`<script> ... </script>\`. Portanto, **não** deve ser usado sem adaptação como arquivo JavaScript externo em \`<script src="...">\`.
+O arquivo [auto-print.js](../auto-print.js) preserva o código como um bloco HTML com `<script> ... </script>`. Portanto, **não** deve ser usado sem adaptação como arquivo JavaScript externo em `<script src="...">`.
 
 A instalação original dependia de o código ser incluído no painel; este repositório **não fornece instalador, extensão ou plugin WordPress**. Antes de ativar em um ambiente novo:
 
-- Escolha um método de inclusão que funcione na **área administrativa**, com autorização e backup. Plugins de scripts voltados ao frontend podem não funcionar no \`wp-admin\`.
+- Escolha um método de inclusão que funcione na **área administrativa**, com autorização e backup. Plugins de scripts voltados ao frontend podem não funcionar no `wp-admin`.
 - Evite carregar o código duas vezes na mesma página.
-- Carregue antes de \`DOMContentLoaded\`, evento que inicia a implementação original.
+- Carregue antes de `DOMContentLoaded`, evento que inicia a implementação original.
 - Confirme que a interface ainda utiliza os seletores CSS indicados em [notas técnicas](NOTAS-TECNICAS.md).
 - Não inclua credenciais, cookies ou dados de pedidos reais na documentação ou no atalho.
 
@@ -60,8 +60,8 @@ A instalação original dependia de o código ser incluído no painel; este repo
 | Sintoma | Verificar |
 | --- | --- |
 | Abre painel, mas não imprime | Se o script foi carregado no painel, se o DOM ainda corresponde aos seletores e se o botão aparece. |
-| Janela de impressão aparece | Aplicação de \`--kiosk-printing\`, reinício completo do Chrome, impressora padrão e compatibilidade. |
-| Nada acontece | Erros no console, \`DOMContentLoaded\` já disparado quando o script é carregado ou elementos ausentes. |
+| Janela de impressão aparece | Aplicação de `--kiosk-printing`, reinício completo do Chrome, impressora padrão e compatibilidade. |
+| Nada acontece | Erros no console, `DOMContentLoaded` já disparado quando o script é carregado ou elementos ausentes. |
 | Pedido duplicado/incorreto | Pedidos simultâneos, recarregamento, datas e mudanças no painel. |
 
 **Registro histórico:** foi confirmado o uso de um **atalho personalizado aberto pelo operador**, não a inicialização automática do Chrome junto com o Windows.
